@@ -16,7 +16,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase {
      * @param array|null $methods
      * @return MockObject|ClientInterface
      */
-    private function getClient(array $methods = null): MockObject {
+    private function getClient(array $methods = null) {
         $builder = $this->getMockBuilder(ClientInterface::class);
         if ($methods !== null) {
             $builder->setMethods($methods);
@@ -30,7 +30,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase {
      * @param null $iterator
      * @return ClientInterface|MockObject
      */
-    private function getQueryClient(string $string, array $values, &$iterator = null): MockObject {
+    private function getQueryClient(string $string, array $values, &$iterator = null) {
         $iterator = new DummyRecordIterator($values);
 
         $client = $this->getClient(['query']);

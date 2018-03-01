@@ -25,7 +25,7 @@ class QuerierTest extends \PHPUnit\Framework\TestCase {
      * @param array|null $methods
      * @return MockObject|ClientInterface
      */
-    private function getClient(array $methods = null): MockObject {
+    private function getClient(array $methods = null) {
         $builder = $this->getMockBuilder(ClientInterface::class);
         if ($methods !== null) {
             $builder->setMethods($methods);
