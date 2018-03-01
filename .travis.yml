@@ -4,11 +4,15 @@ php:
   - '7.2'
   - '7.1'
 
-script: phpunit --configuration tests/phpunit.xml
+script: phpunit --configuration tests/phpunit.xml --coverage-clover tests/logs/clover.xml
 
 before_script:
   - wget http://getcomposer.org/composer.phar
+  - php composer.phar require php-coveralls/php-coveralls
   - php composer.phar install
+
+after_script:
+  - travis_retry php vendor/bin/php-coveralls
 
 cache:
   directories:
