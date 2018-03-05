@@ -66,11 +66,15 @@ class Picklist {
     }
 
     /**
-     * @param string $string The raw picklist string
-     *
+     * @param string $string        The raw picklist string
+     * @param bool $stripWhitespace Whether to trim surrounding whitespace from each item
      * @return Picklist
      */
-    public static function fromString(string $string) {
-        return new self(explode(self::SEPARATOR, $string));
+    public static function fromString(string $string, bool $stripWhitespace = true): self {
+        $parts = explode(self::SEPARATOR, $string);
+        if ($stripWhitespace) {
+            $parts = array_map('trim', $parts);
+        }
+        return new self($parts);
     }
 }
