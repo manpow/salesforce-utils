@@ -38,7 +38,7 @@ class Picklist {
      * @return $this
      */
     public function add($value): self {
-        if ($this->find($value) === null) {
+        if (!$this->contains($value)) {
             $this->values[] = $value;
         }
         return $this;
@@ -56,6 +56,14 @@ class Picklist {
             unset($this->values[$index]);
         }
         return $this;
+    }
+
+    /**
+     * @param mixed $value
+     * @return bool
+     */
+    public function contains($value): bool {
+        return $this->find($value) !== null;
     }
 
     /**
