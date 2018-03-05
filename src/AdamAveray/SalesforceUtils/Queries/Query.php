@@ -4,6 +4,7 @@ namespace AdamAveray\SalesforceUtils\Queries;
 use Phpforce\SoapClient\ClientInterface;
 use Phpforce\SoapClient\Result\QueryResult;
 use Phpforce\SoapClient\Result\RecordIterator;
+use Phpforce\SoapClient\Result\SObject;
 
 class Query {
     /** @var ClientInterface $client */
@@ -78,15 +79,14 @@ class Query {
 
     /**
      * @param array|null $args Arguments to bind before executing
-     * @return QueryResult|null The first result from the query, or null if no results
+     * @return SObject|null The first result from the query, or null if no results
      */
-    public function queryOne(array $args = null): ?QueryResult {
+    public function queryOne(array $args = null): ?SObject {
         $result = $this->query($args);
         if (count($result) === 0) {
             return null;
         }
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $result->current();
+        return $result->first();
     }
 
     /**
