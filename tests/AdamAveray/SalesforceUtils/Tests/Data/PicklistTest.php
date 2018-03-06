@@ -20,6 +20,21 @@ class PicklistTest extends \PHPUnit\Framework\TestCase {
 
     /**
      * @depends testStoreValues
+     * @covers ::contains
+     * @covers ::<!public>
+     */
+    public function testContains() {
+        $values = ['a', 'b', 'c'];
+        $object = new Picklist($values);
+        foreach ($values as $value) {
+            $this->assertTrue($object->contains($value), 'Items in picklist should be marked as contained');
+        }
+
+        $this->assertFalse($object->contains('d'), 'Items not in picklist should be marked as not contained');
+    }
+
+    /**
+     * @depends testStoreValues
      * @covers ::add
      * @covers ::remove
      * @covers ::<!public>
