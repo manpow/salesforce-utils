@@ -7,9 +7,10 @@ php:
 script: phpunit --configuration tests/phpunit.xml --coverage-clover tests/logs/clover.xml
 
 before_script:
-  - wget http://getcomposer.org/composer.phar
-  - php composer.phar require php-coveralls/php-coveralls
-  - php composer.phar install
+  - composer self-update -q
+  - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
+  - composer require php-coveralls/php-coveralls
+  - composer install
 
 after_script:
   - travis_retry php vendor/bin/php-coveralls
