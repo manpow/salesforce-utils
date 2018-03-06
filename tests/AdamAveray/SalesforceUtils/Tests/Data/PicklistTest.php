@@ -83,12 +83,23 @@ class PicklistTest extends \PHPUnit\Framework\TestCase {
 
     /**
      * @covers ::fromString
+     * @dataProvider fromStringDataProvider
      */
-    public function testFromString() {
-        $input    = 'a'.Picklist::SEPARATOR.'b'.Picklist::SEPARATOR.'c';
-        $expected = ['a', 'b', 'c'];
-
+    public function testFromString($expected, $input) {
         $object = Picklist::fromString($input);
         $this->assertEquals($expected, $object->getValues(), 'Picklist strings should be deserialised to values');
+    }
+
+    public function fromStringDataProvider() {
+        return [
+            'No whitespace'   => [
+                ['a','b','c'],
+                'a'.Picklist::SEPARATOR.'b'.Picklist::SEPARATOR.'c',
+            ],
+            'With whitespace' => [
+                ['a','b','c'],
+                'a    '."\n\n".Picklist::SEPARATOR.'    b    '.Picklist::SEPARATOR.'    '."\n".'c',
+            ],
+        ];
     }
 }
