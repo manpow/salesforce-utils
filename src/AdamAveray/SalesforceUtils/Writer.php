@@ -2,7 +2,7 @@
 namespace AdamAveray\SalesforceUtils;
 
 use AdamAveray\SalesforceUtils\Exceptions\SaveFailureException;
-use Phpforce\SoapClient\ClientInterface;
+use AdamAveray\SalesforceUtils\Client\ClientInterface;
 use Phpforce\SoapClient\Result\SaveResult;
 use Phpforce\SoapClient\Result\SObject;
 
@@ -30,7 +30,7 @@ class Writer {
             $object = $this->buildSObject(null, $values);
         }
 
-        $result = $this->client->create([$object], $type)[0];
+        $result = $this->client->createOne($object, $type);
         return $this->handleResult($result);
     }
 
@@ -49,7 +49,7 @@ class Writer {
         }
 
         $object = $this->buildSObject($baseId, $updates);
-        $result = $this->client->update([$object], $type)[0];
+        $result = $this->client->updateOne($object, $type);
         return $this->handleResult($result);
     }
 

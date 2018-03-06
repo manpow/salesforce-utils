@@ -1,12 +1,11 @@
 <?php
 namespace AdamAveray\SalesforceUtils\Queries;
 
-use Phpforce\SoapClient\ClientInterface;
-use Phpforce\SoapClient\Result\QueryResult;
+use AdamAveray\SalesforceUtils\Client\ClientInterface;
 use Phpforce\SoapClient\Result\RecordIterator;
 use Phpforce\SoapClient\Result\SObject;
 
-class Query {
+class Query implements QueryInterface {
     /** @var ClientInterface $client */
     private $client;
     /** @var string $rawQuery The unprocessed SOQL query with parameter placeholders intact */
@@ -59,28 +58,19 @@ class Query {
         return $parts;
     }
 
-    /**
-     * @param array|null $args Arguments to bind before executing
-     * @return \Phpforce\SoapClient\Result\RecordIterator
-     */
+    /** {@inheritdoc} */
     public function query(array $args = null): RecordIterator {
-        return $this->client->query($this->build($args));
+        return $this->client->rawQuery($this->build($args));
     }
 
-    /**
-     * @param array|null $args Arguments to bind before executing
-     * @return \Phpforce\SoapClient\Result\QueryResult[]
-     */
+    /** {@inheritdoc} */
     public function queryAll(array $args = null): array {
         // Phpforce library's `->queryAll` method is incorrectly identical to `->query` - manually convert to array
-        $iterator = $this->client->query($this->build($args));
+        $iterator = $this->client->rawQuery($this->build($args));
         return iterator_to_array($iterator);
     }
 
-    /**
-     * @param array|null $args Arguments to bind before executing
-     * @return SObject|null The first result from the query, or null if no results
-     */
+    /** {@inheritdoc} */
     public function queryOne(array $args = null): ?SObject {
         $result = $this->query($args);
         if (count($result) === 0) {

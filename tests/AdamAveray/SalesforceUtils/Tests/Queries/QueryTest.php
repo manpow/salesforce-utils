@@ -4,8 +4,9 @@ namespace AdamAveray\SalesforceUtils\Tests\Queries;
 use AdamAveray\SalesforceUtils\Queries\Query;
 use AdamAveray\SalesforceUtils\Queries\SafeString;
 use AdamAveray\SalesforceUtils\Tests\DummyClasses\DummyRecordIterator;
-use Phpforce\SoapClient\ClientInterface;
+use AdamAveray\SalesforceUtils\Client\ClientInterface;
 use Phpforce\SoapClient\Result\QueryResult;
+use Phpforce\SoapClient\Result\SObject;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -36,7 +37,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase {
         $client = $this->getClient(['query']);
         $client
             ->expects($this->once())
-            ->method('query')
+            ->method('rawQuery')
             ->with($string)
             ->willReturn($iterator);
         return $client;
@@ -165,7 +166,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase {
      * @depends testBuild
      */
     public function testQueryOne() {
-        $expected = $this->getMockBuilder(QueryResult::class)->getMock();
+        $expected = new SObject();
 
         $string    = 'SOQL QUERY TEST';
         $stringRaw = 'SOQL QUERY ::test';

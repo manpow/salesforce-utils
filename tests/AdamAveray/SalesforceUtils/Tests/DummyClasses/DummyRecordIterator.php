@@ -29,4 +29,8 @@ class DummyRecordIterator extends RecordIterator {
     public function count() {
         return count($this->values);
     }
+
+    protected function getObjectAt($key) {
+        return $this->values[$key] ?? null;
+    }
 }

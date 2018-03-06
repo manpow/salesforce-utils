@@ -1,11 +1,9 @@
 <?php
 namespace AdamAveray\SalesforceUtils\Tests\Queries;
 
-use AdamAveray\SalesforceUtils\Exceptions\SaveFailureException;
 use AdamAveray\SalesforceUtils\Tests\DummyClasses\DummySaveResult;
 use AdamAveray\SalesforceUtils\Writer;
-use Phpforce\SoapClient\ClientInterface;
-use Phpforce\SoapClient\Result\SaveResult;
+use AdamAveray\SalesforceUtils\Client\ClientInterface;
 use Phpforce\SoapClient\Result\SObject;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -52,12 +50,12 @@ class WriterTest extends \PHPUnit\Framework\TestCase {
 
         $saveResult = new DummySaveResult($id);
 
-        $client = $this->getClient(['create']);
+        $client = $this->getClient(['createOne']);
         $client
             ->expects($this->exactly(2))
-            ->method('create')
-            ->with([$object], $type)
-            ->willReturn([$saveResult]);
+            ->method('createOne')
+            ->with($object, $type)
+            ->willReturn($saveResult);
 
         $writer = $this->getWriter($client);
 
@@ -79,11 +77,11 @@ class WriterTest extends \PHPUnit\Framework\TestCase {
     public function testCreateFailure() {
         $saveResult = new DummySaveResult(null, false);
 
-        $client = $this->getClient(['create']);
+        $client = $this->getClient(['createOne']);
         $client
             ->expects($this->once())
-            ->method('create')
-            ->willReturn([$saveResult]);
+            ->method('createOne')
+            ->willReturn($saveResult);
 
         $writer = $this->getWriter($client);
         $writer->create('test', []);
@@ -111,12 +109,12 @@ class WriterTest extends \PHPUnit\Framework\TestCase {
 
         $saveResult = new DummySaveResult($id);
 
-        $client = $this->getClient(['update']);
+        $client = $this->getClient(['updateOne']);
         $client
             ->expects($this->exactly(2))
-            ->method('update')
-            ->with([$object], $type)
-            ->willReturn([$saveResult]);
+            ->method('updateOne')
+            ->with($object, $type)
+            ->willReturn($saveResult);
 
         $writer = $this->getWriter($client);
 
@@ -138,11 +136,11 @@ class WriterTest extends \PHPUnit\Framework\TestCase {
     public function testUpdateFailure() {
         $saveResult = new DummySaveResult(null, false);
 
-        $client = $this->getClient(['update']);
+        $client = $this->getClient(['updateOne']);
         $client
             ->expects($this->once())
-            ->method('update')
-            ->willReturn([$saveResult]);
+            ->method('updateOne')
+            ->willReturn($saveResult);
 
         $writer = $this->getWriter($client);
         $writer->update('test', 'id', []);
