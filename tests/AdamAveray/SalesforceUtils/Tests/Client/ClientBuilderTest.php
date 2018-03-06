@@ -13,6 +13,8 @@ class ClientBuilderTest extends \PHPUnit\Framework\TestCase {
     private const PATH_VENDOR = __DIR__.'/../../../../../vendor';
 
     /**
+     * @covers ::__construct
+     * @covers ::withLog
      * @covers ::build
      * @covers ::<!public>
      * @dataProvider buildDataProvider
