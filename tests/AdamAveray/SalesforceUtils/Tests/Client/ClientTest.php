@@ -215,44 +215,63 @@ class ClientTest extends \PHPUnit\Framework\TestCase {
         $sObject = new SObject();
         $sObject->Id = $id;
 
+        $genericObject = new \stdClass();
+
         return [
-            'Method `update`'         => [
+            'Method `update`'          => [
                 'Method'      => 'update',
                 'Should Call' => [[$sObject], $type],
                 'Call With'   => [$sObject, $type],
             ],
-            'Method `create`'         => [
+            'Method `create`'          => [
                 'Method'      => 'create',
                 'Should Call' => [[$sObject], $type],
                 'Call With'   => [$sObject, $type],
             ],
-            'Method `delete`'         => [
+            'Method `create` stdClass' => [
+                'Method'      => 'create',
+                'Should Call' => [[$genericObject], $type],
+                'Call With'   => [$genericObject, $type],
+            ],
+            'Method `delete`'          => [
                 'Method'      => 'delete',
                 'Should Call' => [[$id]],
                 'Call With'   => [$id],
             ],
-            'Method `retrieve`'       => [
+            'Method `retrieve`'        => [
                 'Method'      => 'retrieve',
                 'Should Call' => [['a', 'b', 'c'], [$id], $type],
                 'Call With'   => [['a', 'b', 'c'], $id, $type],
             ],
-            'Method `undelete`'       => [
+            'Method `undelete`'        => [
                 'Method'      => 'undelete',
                 'Should Call' => [[$id]],
                 'Call With'   => [$id],
             ],
-            'Method `upsert`'         => [
+            'Method `upsert`'          => [
                 'Method'      => 'upsert',
                 'Should Call' => ['externalIdFieldName', [$sObject], $type],
                 'Call With'   => ['externalIdFieldName', $sObject, $type],
             ],
-            'Method `describeSObject' => [
+            'Method `describeSObject'  => [
                 'Method'      => 'describeSObjects',
                 'Should Call' => [[$type]],
                 'Call With'   => [$type],
                 'Method One'  => 'describeSObject',
             ],
         ];
+    }
+
+    /**
+     * @covers ::createOne
+     * @covers ::<!public>
+     * @expectedException \InvalidArgumentException
+     */
+    public function testCreateInvalidSObject() {
+        $client = $this->getClient();
+
+        $object = new SObject();
+        $client->createOne($object, 'type');
     }
 
     /**
