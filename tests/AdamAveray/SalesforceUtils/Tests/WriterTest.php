@@ -52,7 +52,7 @@ class WriterTest extends \PHPUnit\Framework\TestCase {
 
         $client = $this->getClient(['createOne']);
         $client
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(3))
             ->method('createOne')
             ->with($object, $type)
             ->willReturn($saveResult);
@@ -66,6 +66,13 @@ class WriterTest extends \PHPUnit\Framework\TestCase {
         // Pre-made object
         $result = $writer->create($type, $object);
         $this->assertEquals($saveResult, $result, 'The created object ID should be returned in the SaveResult');
+
+        // Set record type
+        $recordTypeId = '98765';
+        $originalObject = clone($object);
+        $object->{Writer::FIELD_RECORD_TYPE_ID} = $recordTypeId;
+        $result = $writer->create($type, $originalObject, $recordTypeId);
+        $this->assertEquals($saveResult, $result, 'The provided record type should be assigned on the create object');
     }
 
     /**

@@ -7,6 +7,8 @@ use Phpforce\SoapClient\Result\SaveResult;
 use Phpforce\SoapClient\Result\SObject;
 
 class Writer {
+    const FIELD_RECORD_TYPE_ID = 'RecordTypeId';
+
     /** @var ClientInterface $client */
     private $client;
 
@@ -20,14 +22,20 @@ class Writer {
     /**
      * @param string $type The type of object to create
      * @param array|object $values The values for the object, or the object itself
+     * @param string|null $recordTypeId The ID for the record type to set on the object, or null to leave as default
      * @return SaveResult
      * @throws SaveFailureException The create was unsuccessful
      */
-    public function create(string $type, $values): SaveResult {
+    public function create(string $type, $values, ?string $recordTypeId = null): SaveResult {
         if (is_object($values)) {
             $object = $values;
         } else {
             $object = (object)$values;
+        }
+
+        if ($recordTypeId !== null) {
+            // Set record type
+            $object->{self::FIELD_RECORD_TYPE_ID} = $recordTypeId;
         }
 
         $result = $this->client->createOne($object, $type);
