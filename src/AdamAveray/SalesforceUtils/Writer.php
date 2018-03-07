@@ -19,15 +19,15 @@ class Writer {
 
     /**
      * @param string $type The type of object to create
-     * @param array|SObject $values The values for the object, or the object itself
+     * @param array|object $values The values for the object, or the object itself
      * @return SaveResult
      * @throws SaveFailureException The create was unsuccessful
      */
     public function create(string $type, $values): SaveResult {
-        if ($values instanceof SObject) {
+        if (is_object($values)) {
             $object = $values;
         } else {
-            $object = $this->buildSObject(null, $values);
+            $object = (object)$values;
         }
 
         $result = $this->client->createOne($object, $type);

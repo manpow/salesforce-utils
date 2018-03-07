@@ -44,7 +44,7 @@ class WriterTest extends \PHPUnit\Framework\TestCase {
             'testValue'  => 'one',
             'otherValue' => 'two',
         ];
-        $object = new SObject();
+        $object = new \stdClass();
         $object->testValue  = $values['testValue'];
         $object->otherValue = $values['otherValue'];
 
