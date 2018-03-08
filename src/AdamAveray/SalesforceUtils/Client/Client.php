@@ -85,7 +85,7 @@ class Client extends \Phpforce\SoapClient\Client implements ClientInterface {
     }
 
     /** {@inheritdoc} */
-    public function createOne(object $object, string $type): SaveResult {
+    public function createOne($object, string $type): SaveResult {
         if ($object instanceof SObject && $object->Id === null) {
             throw new \InvalidArgumentException('SObjects without IDs cannot be used for creation - use simple \\stdClass objects');
         }

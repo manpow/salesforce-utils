@@ -46,7 +46,7 @@ interface ClientInterface extends \Phpforce\SoapClient\ClientInterface {
      * @param string $type   The type of object to create
      * @return Result\SaveResult
      */
-    public function createOne(object $object, string $type): Result\SaveResult;
+    public function createOne($object, string $type): Result\SaveResult;
 
     /**
      * @param string|SObject $id The ID of the object to delete or the object itself
