@@ -1,7 +1,6 @@
 <?php
 namespace AdamAveray\SalesforceUtils\Client;
 
-use Phpforce\SoapClient\Soap\SoapClientFactory;
 use Phpforce\SoapClient\Plugin\LogPlugin;
 use Psr\Log\LoggerInterface;
 
@@ -31,7 +30,9 @@ class ClientBuilder {
         $this->username    = $username;
         $this->password    = $password;
         $this->token       = $token;
-        $this->soapOptions = $soapOptions;
+        $this->soapOptions = array_merge([
+		    'exceptions' => true,
+        ], $soapOptions);
     }
 
     /**
