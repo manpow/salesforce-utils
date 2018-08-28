@@ -84,7 +84,7 @@ class Query implements QueryInterface {
      * @return string The complete SOQL query with bound arguments
      * @throws \OutOfBoundsException An expected query parameter was not provided in $args
      */
-    private function build(array $args = null): string {
+    public function build(array $args = null): string {
         $args = array_merge($this->globalArgs, (array)$args);
 
         $out = '';
