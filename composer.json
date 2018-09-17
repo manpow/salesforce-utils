@@ -18,7 +18,6 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=7.1",
-        "roave/security-advisories": "dev-master",
         "phpforce/soap-client": "dev-partner",
         "doctrine/collections": "^1.6"
     },
